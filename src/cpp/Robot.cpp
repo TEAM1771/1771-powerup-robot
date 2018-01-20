@@ -1,16 +1,16 @@
 #include "WPILib.h"
-#include "MyHeader.h"
+
+#include <IterativeRobot.h>
+
+/* Dashboard Libraries */
+#include <SmartDashboard/SmartDashboard.h>
+#include <LiveWindow/LiveWindow.h>
+#include <SmartDashboard/SendableChooser.h>
 
 using namespace frc;
 
-// From MyHeader.h
-int add(int a, int b) {
-    return a + b;
-}
-
 class Robot: public IterativeRobot {
 public:
-    Robot() { }
 
     void RobotInit() { }
 

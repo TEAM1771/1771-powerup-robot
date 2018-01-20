@@ -149,6 +149,7 @@
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/IterativeRobotBase.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/Jaguar.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/Joystick.h
+/Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/LiveWindow/LiveWindow.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/MotorSafety.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/MotorSafetyHelper.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpilibc-2018.1.1-headers.zip_0ba004690f48207547fbbd2a6f212388/NidecBrushless.h
@@ -230,4 +231,3 @@
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpiutil-cpp-3.0.0-headers.zip_71db4973bf73247f06ec3fdb86e1126b/support/deprecated.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpiutil-cpp-3.0.0-headers.zip_71db4973bf73247f06ec3fdb86e1126b/support/mutex.h
 /Users/lunyrobot/1771-powerup-robot/build/tmp/expandedArchives/wpiutil-cpp-3.0.0-headers.zip_71db4973bf73247f06ec3fdb86e1126b/support/priority_mutex.h
-/Users/lunyrobot/1771-powerup-robot/src/include/MyHeader.h
