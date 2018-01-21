@@ -5,7 +5,10 @@
 
 // *TO-DO: CHANGE TBDs to actual values
 
-/* Motor ports and Encoder channels */
+/* Ports and Encoder channels */
+#define JOY_LEFT            TBD
+#define JOY_RIGHT           TBD
+
 #define LTR_MOTOR_A         TBD
 #define LTR_MOTOR_B         TBD
 #define RTR_MOTOR_A         TBD
