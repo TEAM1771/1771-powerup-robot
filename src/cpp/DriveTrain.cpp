@@ -1,0 +1,57 @@
+#include <DriveTrain.h>
+
+DriveTrain::DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int re1, int re2, int shift_port, int pto_port) :
+    ltrm(lm1, lm2, le1, le2),
+    rtrm(rm1, rm2, re1, re2),
+    shifter(shift_port),
+    pto(pto_port) {
+    isClimbing = false;
+}
+
+// DELETE AFTER CREATING DEFINITIONS.H
+#define CL_SPEED 1
+void DriveTrain::Tank(double lrate, double rrate){
+    if(!isClimbing){
+        ltrm.Set(lrate);
+        rtrm.Set(-rrate);
+    }else{                          // Climb motor speed code
+        ltrm.Set(CL_SPEED);
+        rtrm.Set(-CL_SPEED);
+    }
+}
+
+void DriveTrain::Shift(bool toShiftOrNotToShift){
+    shifter.Set(toShiftOrNotToShift);
+}
+
+double DriveTrain::GetSpeed(){
+    return fabs(ltrm.GetSpeed() - rtrm.GetSpeed()) / 2;
+}
+
+void DriveTrain::EnableClimb(){
+    pto.Set((isClimbing = 1));
+}
+
+void DriveTrain::DisableClimb(){
+    pto.Set((isClimbing = 0));
+}
+
+// DELETE AFTER CREATING DEFINITIONS.H
+#define SHIFT_UP_SPEED      0
+#define SHIFT_DOWN_SPEED    0
+#define CL_SHIFT_UP_SPEED   0
+#define CL_SHIFT_DOWN_SPEED 0
+void DriveTrain::AutoShift(){
+    if(!isClimbing){
+        if(GetSpeed() > SHIFT_UP_SPEED)
+            Shift(1);
+        else if(GetSpeed() < SHIFT_DOWN_SPEED)
+            Shift(0);
+    }else{
+        if(GetSpeed() > CL_SHIFT_UP_SPEED)
+            Shift(1);
+        else if(GetSpeed() <CL_SHIFT_UP_SPEED)
+            Shift(0);
+    }
+        
+}
