@@ -1,4 +1,5 @@
 #include <DriveTrain.h>
+#include <Definitions.h>
 
 DriveTrain::DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int re1, int re2, int shift_port, int pto_port) :
     ltrm(lm1, lm2, le1, le2),
@@ -8,8 +9,6 @@ DriveTrain::DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int
     isClimbing = false;
 }
 
-// DELETE AFTER CREATING DEFINITIONS.H
-#define CL_SPEED 1
 void DriveTrain::Tank(double lrate, double rrate){
     if(!isClimbing){
         ltrm.Set(lrate);
@@ -36,11 +35,6 @@ void DriveTrain::DisableClimb(){
     pto.Set((isClimbing = 0));
 }
 
-// DELETE AFTER CREATING DEFINITIONS.H
-#define SHIFT_UP_SPEED      0
-#define SHIFT_DOWN_SPEED    0
-#define CL_SHIFT_UP_SPEED   0
-#define CL_SHIFT_DOWN_SPEED 0
 void DriveTrain::AutoShift(){
     if(!isClimbing){
         if(GetSpeed() > SHIFT_UP_SPEED)
