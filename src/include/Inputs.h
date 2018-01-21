@@ -20,6 +20,10 @@ public:
     double GetLeftY();
     double GetRightX();
     double GetRightY();
+    
+    bool GetLeftButton(int bn);
+    bool GetRightButton(int bn);
+    
 };
 
 #endif // INPUTS_H_

@@ -19,3 +19,11 @@ double Inputs::GetRightX(){
 double Inputs::GetRightY(){
     return right.GetY();
 }
+
+bool Inputs::GetLeftButton(int bn){
+    return left.GetRawButton(bn);
+}
+
+bool Inputs::GetRightButton(int bn){
+    return right.GetRawButton(bn);
+}
