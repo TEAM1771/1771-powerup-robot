@@ -14,17 +14,15 @@ private:
     // Unsure of how many solenoids needed at the moment for the arms, will update soon
     Solenoid larm, harm, controller_arm;
     
-    
     Solenoid flipper;
     TalonSRX rin, lin;
     
 public:
     Intake(int larm_port, int harm_port, int flipper_port, int rin_port, int lin_port, int carm_port);
     
-    enum ARM_PRES { LOW, HIGH };
-    enum ARM_STATE { IN, OUT };
+    enum ARM_STATE { LOW_IN, LOW_OUT, HIGH_IN, HIGH_OUT };
     
-    void IntakeUpdate(ARM_STATE as, ARM_PRES ap);
+    void IntakeUpdate(ARM_STATE as);
     
     void SetIntakeWheels(double rate);
     void SetFlipper(bool flip);

@@ -5,11 +5,32 @@ larm(larm_port), harm(harm_port),
 flipper(flipper_port),
 lin(lin_port), rin(rin_port),
 controller_arm(carm_port){
-    // *TO-DO: add default state once IntakeUpdate is complete -> low pressure arms out
+    IntakeUpdate(LOW_OUT);
 }
 
-void Intake::IntakeUpdate(ARM_STATE as, ARM_PRES ap){
-    // *TO-DO: add intake arm code once the process is drawn out and understood
+void Intake::IntakeUpdate(ARM_STATE as){
+    // Should work in theory possibly maybe must test
+    switch(as){
+        case LOW_IN:
+            harm.Set(0);
+            larm.Set(1);
+            controller_arm.Set(0);
+            break;
+        case LOW_OUT:
+            harm.Set(0);
+            larm.Set(1);
+            controller_arm.Set(1);
+            break;
+        case HIGH_IN:
+            larm.Set(0);
+            harm.Set(1);
+            controller_arm.Set(0);
+            break;
+        case HIGH_OUT:
+            larm.Set(0);
+            harm.Set(1);
+            controller_arm.Set(1);
+    }
 }
 
 void Intake::SetIntakeWheels(double rate){
@@ -21,6 +42,8 @@ void Intake::SetFlipper(bool flip){
     if(flip == 0){
         flipper.Set(flip);
     }else{
-        // *TO-DO: add condition: if flipping down (extending) set intake to LOW arms IN
+        // *TO-DO: CONFIRM that on flip down Intake arms must be LOW PRESSURE and IN
+        IntakeUpdate(LOW_IN);
+        flipper.Set(flip);
     }
 }
