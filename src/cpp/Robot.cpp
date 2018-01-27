@@ -12,6 +12,7 @@
 #include <DriveTrain.h>
 #include <Inputs.h>
 #include <Elevator.h>
+#include <AHRS.h>
 
 
 using namespace frc;
@@ -22,6 +23,7 @@ private:
     Inputs in;
     Elevator elevator;
     Solenoid wings;
+    AHRS *navx;
     
 public:
     
@@ -29,7 +31,13 @@ public:
                 in(JOY_LEFT, JOY_RIGHT, JOY_OTHER),
                 elevator(ELEVATOR_MOTOR_PORT, ELEVATOR_ENC_CHA, ELEVATOR_ENC_CHB, ARM_SOLENOID_PORT, ARM_PIVOT_PORT, ARM_PIVOT_POT_PORT, FLIPPER_PORT, RIGHT_ARM_IN_PORT, LEFT_ARM_IN_PORT),
                 wings(WINGS_PORT){
-        
+                    
+                    try{
+                        navx = new AHRS(SPI::Port::kMXP);
+                    }catch(std::exception& e){
+                        // Don't get an error please thank you
+                    }
+                    
     }
     
     void RobotInit() { }
