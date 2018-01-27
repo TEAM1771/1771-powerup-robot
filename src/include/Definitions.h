@@ -32,4 +32,8 @@
 
 #define ARM_PIVOT_SPEED     TBD
 
+/* Coefficients for PI controllers */
+#define ELEVATOR_P          TBD
+#define ELEVATOR_I          TBD
+
 #endif // DEFINITIONS_H_
