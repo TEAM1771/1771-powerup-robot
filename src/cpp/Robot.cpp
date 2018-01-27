@@ -55,7 +55,7 @@ public:
     void TeleopPeriodic() {
         driveTrain.Tank(in.GetLeftY(), in.GetRightY());
         driveTrain.AutoShift();
-        elevator.UpdatePI();
+        elevator.UpdatePID();
     }
     
     void TestPeriodic() { }
