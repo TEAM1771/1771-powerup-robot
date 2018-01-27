@@ -1,7 +1,7 @@
 #include <Intake.h>
 
 Intake::Intake(int arm_port, int arm_pivot_port, int arm_pivot_pot_port, int flipper_port, int rin_port, int lin_port) :
-arm(arm_port),
+arms(arm_port),
 arm_pivot(arm_pivot_port),
 pivot_pot(arm_pivot_pot_port),
 flipper(flipper_port),
@@ -25,7 +25,7 @@ void Intake::SetFlipper(bool flip){
 
 void Intake::SetPivotArm(double pos){
     if(pivot_pot.GetAverageVoltage() < pos)
-        arm_pivot.Set(ControlMode::PercentOuput, ARM_PIVOT_SPEED);
+        arm_pivot.Set(ControlMode::PercentOutput, ARM_PIVOT_SPEED);
     else if(pivot_pot.GetAverageVoltage() > pos)
         arm_pivot.Set(ControlMode::PercentOutput, -ARM_PIVOT_SPEED);
 }
