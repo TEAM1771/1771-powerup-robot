@@ -12,17 +12,21 @@ class Inputs {
 private:
     frc::Joystick left;
     frc::Joystick right;
+    frc::Joystick other;
     
 public:
-    Inputs(int lport, int rport);
+    Inputs(int lport, int rport, int oport);
     
     double GetLeftX();
     double GetLeftY();
     double GetRightX();
     double GetRightY();
+    double GetOtherX();
+    double GetOtherY();
     
     bool GetLeftButton(int bn);
     bool GetRightButton(int bn);
+    bool GetOtherButton(int bn);
     
 };
 
