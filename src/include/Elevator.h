@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * *
- *         Inputs.h        *
+ *        Elevator.h       *
  * by Justin DeSimpliciis  *
  * * * * * * * * * * * * * */
 
