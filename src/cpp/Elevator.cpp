@@ -8,17 +8,35 @@ elvtr_enc(elv_ch_a, elv_ch_b){
     i = 0;
     desired_pos = 0;
     derivative = 0, last_err = 0;
+    reaching_pos = 0;
 }
 
 void Elevator::UpdatePID(){
-    i += elvtr_enc.Get()*.02;
-    last_err = error;
-    error = desired_pos - elvtr_enc.Get();
-    change = ELEVATOR_P*error + ELEVATOR_I*i + ELEVATOR_D*((error - last_err)/.02);
-    
-    elvtr.Set(ControlMode::PercentOutput, change);
+    if(pos == -1){
+        i += elvtr_enc.Get()*.02;
+        last_err = error;
+        error = desired_pos - elvtr_enc.Get();
+        if(error > 1)
+            reaching_pos = 1;
+        change = ELEVATOR_P*error + ELEVATOR_I*i + ELEVATOR_D*((error - last_err)/.02);
+        
+        elvtr.Set(ControlMode::PercentOutput, change);
+    }
 }
 
 void Elevator::SetPosition(int pos){
     desired_pos = pos;
+}
+
+void Elevator::Set(double rate){
+    if(reaching_pos){
+        if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
+            SetPosition((ELEVATOR_HIGH_PT+ELEVATOR_LOW_PT)/2);  // Temporary midpoint value -> change during testing
+        }else if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
+            SetPosition((ELEVATOR_LOW_PT+ELEVATOR_HIGH_PT)/2);  // Temporary midpoint value -> change during testing
+        }else{
+            SetPosition(-1);
+            elvtr.Set(ControlMode::PercentOutput, rate);
+        }
+    }
 }

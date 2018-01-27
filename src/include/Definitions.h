@@ -5,7 +5,7 @@
 
 // *TO-DO: CHANGE TBDs to actual values
 
-/* Ports and Encoder channels */
+/*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            TBD
 #define JOY_RIGHT           TBD
 #define JOY_OTHER           TBD
@@ -34,19 +34,21 @@
 #define PTO_PORT            TBD
 #define ARM_SOLENOID_PORT   TBD
 #define FLIPPER_PORT        TBD
-#define WINGS_PORT           TBD
+#define WINGS_PORT          TBD
 
-/* Speed constants and Encoder thresholds */
+/*========== Speed constants and Encoder thresholds ==========*/
 #define CL_SPEED            TBD
 
 #define SHIFT_UP_SPEED      TBD
 #define SHIFT_DOWN_SPEED    TBD
 #define CL_SHIFT_UP_SPEED   TBD
 #define CL_SHIFT_DOWN_SPEED TBD
+#define ELEVATOR_HIGH_PT    TBD
+#define ELEVATOR_LOW_PT     TBD
 
 #define ARM_PIVOT_SPEED     TBD
 
-/* Coefficients for PI controllers */
+/*========== Coefficients for PID controllers ==========*/
 #define ELEVATOR_P          TBD
 #define ELEVATOR_I          TBD
 #define ELEVATOR_D          TBD

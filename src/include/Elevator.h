@@ -19,6 +19,8 @@ private:
     double change;
     int error, desired_pos, derivative, last_err;
     long int i;
+    
+    bool reaching_pos;
 public:
     Intake intake;
     
@@ -28,7 +30,7 @@ public:
     
     void UpdatePID();
     
-    
+    void Set(double rate);
 };
 
 #endif // ELEVATOR_H_
