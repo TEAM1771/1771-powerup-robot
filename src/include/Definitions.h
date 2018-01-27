@@ -8,19 +8,32 @@
 /* Ports and Encoder channels */
 #define JOY_LEFT            TBD
 #define JOY_RIGHT           TBD
+#define JOY_OTHER           TBD
 
+// Motors
 #define LTR_MOTOR_A         TBD
 #define LTR_MOTOR_B         TBD
 #define RTR_MOTOR_A         TBD
 #define RTR_MOTOR_B         TBD
+#define ELEVATOR_MOTOR_PORT TBD
+#define RIGHT_ARM_IN_PORT   TBD
+#define LEFT_ARM_IN_PORT    TBD
+#define ARM_PIVOT_PORT      TBD
 
+// Encoders (and a single potentiometer)
 #define L_ENC_CHA           TBD
 #define L_ENC_CHB           TBD
 #define R_ENC_CHA           TBD
 #define R_ENC_CHB           TBD
+#define ELEVATOR_ENC_CHA    TBD
+#define ELEVATOR_ENC_CHB    TBD
+#define ARM_PIVOT_POT_PORT  TBD
 
+// Solenoids
 #define SHIFTER_PORT        TBD
 #define PTO_PORT            TBD
+#define ARM_SOLENOID_PORT   TBD
+#define FLIPPER_PORT        TBD
 
 /* Speed constants and Encoder thresholds */
 #define CL_SPEED            TBD
