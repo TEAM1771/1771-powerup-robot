@@ -12,7 +12,7 @@ elvtr_enc(elv_ch_a, elv_ch_b){
 }
 
 void Elevator::UpdatePID(){
-    if(pos == -1){
+    if(desired_pos == -1){
         i += elvtr_enc.Get()*.02;
         last_err = error;
         error = desired_pos - elvtr_enc.Get();
