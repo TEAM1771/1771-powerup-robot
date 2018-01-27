@@ -30,4 +30,6 @@
 #define CL_SHIFT_UP_SPEED   TBD
 #define CL_SHIFT_DOWN_SPEED TBD
 
+#define ARM_PIVOT_SPEED     TBD
+
 #endif // DEFINITIONS_H_
