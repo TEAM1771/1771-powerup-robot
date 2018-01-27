@@ -43,6 +43,7 @@ public:
     void RobotInit() { }
 
     void DisabledInit() { }
+    
     void AutonomousInit() { }
     void TeleopInit() { }
     void TestInit() { }
@@ -55,6 +56,8 @@ public:
     void TeleopPeriodic() {
         driveTrain.Tank(in.GetLeftY(), in.GetRightY());
         driveTrain.AutoShift();
+        
+        elevator.Set(in.GetOtherY());
         elevator.UpdatePID();
     }
     
