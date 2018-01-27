@@ -34,6 +34,7 @@
 #define PTO_PORT            TBD
 #define ARM_SOLENOID_PORT   TBD
 #define FLIPPER_PORT        TBD
+#define WINGS_PORT           TBD
 
 /* Speed constants and Encoder thresholds */
 #define CL_SPEED            TBD
