@@ -54,11 +54,15 @@ public:
     }
     
     void TeleopPeriodic() {
-        driveTrain.Tank(in.GetLeftY(), in.GetRightY());
-        driveTrain.AutoShift();
-        
-        elevator.Set(in.GetOtherY());
-        elevator.UpdatePID();
+        if(!driveTrain.IsClimbing()){
+            driveTrain.Tank(in.GetLeftY(), in.GetRightY());
+            driveTrain.AutoShift();
+            
+            elevator.Set(in.GetOtherY());
+            elevator.UpdatePID();
+        }else{ // if bot is climbing
+            driveTrain.Tank(in.GetOtherY(), in.GetOtherY());
+        }
     }
     
     void TestPeriodic() { }

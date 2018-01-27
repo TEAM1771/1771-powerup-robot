@@ -33,6 +33,7 @@ public:
     // Seperate functions to avoid code accidental code
     void EnableClimb();
     void DisableClimb();
+    bool IsClimbing();
 };
 
 #endif /* DRIVETRAIN_H_ */

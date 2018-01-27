@@ -49,3 +49,7 @@ void DriveTrain::AutoShift(){
     }
         
 }
+
+bool DriveTrain::IsClimbing(){
+    return isClimbing;
+}
