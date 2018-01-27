@@ -12,17 +12,15 @@
 class Intake {
 private:
     // Unsure of how many solenoids needed at the moment for the arms, will update soon
-    Solenoid larm, harm, controller_arm;
+    Solenoid arms;
     
     Solenoid flipper;
     TalonSRX rin, lin;
     
 public:
-    Intake(int larm_port, int harm_port, int flipper_port, int rin_port, int lin_port, int carm_port);
+    Intake(int arm_port, int flipper_port, int rin_port, int lin_port);
     
-    enum ARM_STATE { LOW_IN, LOW_OUT, HIGH_IN, HIGH_OUT };
-    
-    void IntakeUpdate(ARM_STATE as);
+    void SetArms(bool state);
     
     void SetIntakeWheels(double rate);
     void SetFlipper(bool flip);
