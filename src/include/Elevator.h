@@ -17,7 +17,7 @@ private:
     
     // Elevator PI control
     double change;
-    int error, desired_pos;
+    int error, desired_pos, derivative, last_err;
     long int i;
 public:
     Intake intake;
@@ -26,7 +26,7 @@ public:
     
     void SetPosition(int position);
     
-    void UpdatePI();
+    void UpdatePID();
     
     
 };

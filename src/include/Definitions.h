@@ -1,7 +1,7 @@
 #ifndef DEFINITIONS_H_
 #define DEFINITIONS_H_
 
-#define TBD                 0
+#define TBD                 1
 
 // *TO-DO: CHANGE TBDs to actual values
 
@@ -49,5 +49,6 @@
 /* Coefficients for PI controllers */
 #define ELEVATOR_P          TBD
 #define ELEVATOR_I          TBD
+#define ELEVATOR_D          TBD
 
 #endif // DEFINITIONS_H_

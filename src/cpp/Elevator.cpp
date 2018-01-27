@@ -7,12 +7,16 @@ elvtr_enc(elv_ch_a, elv_ch_b){
     elvtr_enc.Reset();
     i = 0;
     desired_pos = 0;
+    derivative = 0, last_err = 0;
 }
 
-void Elevator::UpdatePI(){
+void Elevator::UpdatePID(){
     i += elvtr_enc.Get()*.02;
+    last_err = error;
     error = desired_pos - elvtr_enc.Get();
-    change = ELEVATOR_P*error + ELEVATOR_I*i;
+    change = ELEVATOR_P*error + ELEVATOR_I*i + ELEVATOR_D*((error - last_err)/.02);
+    
+    elvtr.Set(ControlMode::PercentOutput, change);
 }
 
 void Elevator::SetPosition(int pos){
