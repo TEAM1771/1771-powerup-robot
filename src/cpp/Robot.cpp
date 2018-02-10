@@ -54,14 +54,21 @@ public:
     }
     
     void TeleopPeriodic() {
-        if(!driveTrain.IsClimbing()){
+        if(in.GetOtherButton(CLIMB_BUTTON)){
             driveTrain.Tank(in.GetLeftY(), in.GetRightY());
             driveTrain.AutoShift();
             
             elevator.Set(in.GetOtherY());
             elevator.UpdatePID();
         }else{ // if bot is climbing
-            driveTrain.Tank(in.GetOtherY(), in.GetOtherY());
+            
+            // button pushed enabling climb, as soon as unpushed stop climb, joy, only climb if joy is going forward
+            if(in.GetOtherY() > 0){
+                driveTrain.Tank(in.GetOtherY(), in.GetOtherY());
+                elevator.Set(in.GetOtherY());
+            }else{
+                elevator.Set(0);
+            }
         }
     }
     

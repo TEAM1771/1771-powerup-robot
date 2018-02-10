@@ -5,6 +5,9 @@
 
 // *TO-DO: CHANGE TBDs to actual values
 
+/*========== Button Mappings ==========*/
+#define CLIMB_BUTTON        5
+
 /*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            TBD
 #define JOY_RIGHT           TBD

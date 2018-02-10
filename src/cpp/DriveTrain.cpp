@@ -10,13 +10,8 @@ DriveTrain::DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int
 }
 
 void DriveTrain::Tank(double lrate, double rrate){
-    if(!isClimbing){
-        ltrm.Set(lrate);
-        rtrm.Set(-rrate);
-    }else{                          // Climb motor speed code
-        ltrm.Set(CL_SPEED);
-        rtrm.Set(-CL_SPEED);
-    }
+    ltrm.Set(lrate);
+    rtrm.Set(-rrate);
 }
 
 void DriveTrain::Shift(bool toShiftOrNotToShift){
