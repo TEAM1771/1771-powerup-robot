@@ -1,3 +1,4 @@
 language: cpp
+before_install: chmod +x gradlew
 install: sudo ./gradlew installToolchain
 script: sudo ./gradlew build
