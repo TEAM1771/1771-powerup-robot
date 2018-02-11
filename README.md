@@ -1,4 +1,4 @@
-# 1771-powerup-robot
+# 1771-powerup-robot [![Build Status](https://travis-ci.org/jscd/1771-powerup-robot.svg?branch=master)](https://travis-ci.org/jscd/1771-powerup-robot)
 This repo is the C++ code for FRC Team 1771's 2018 Power Up robot.
 
 ## Building
