@@ -1,3 +1,3 @@
 language: cpp
-install: ./gradlew installToolchain
-script: ./gradlew build
+install: sudo ./gradlew installToolchain
+script: sudo ./gradlew build
