@@ -25,6 +25,8 @@ private:
     Solenoid wings;
     AHRS *navx;
     
+    bool climb_button_state, climb_button_state_prev, is_climbing;
+    
 public:
     
     Robot() :   driveTrain(LTR_MOTOR_A, LTR_MOTOR_B, RTR_MOTOR_A, RTR_MOTOR_B, L_ENC_CHA, L_ENC_CHB, R_ENC_CHA, R_ENC_CHB, SHIFTER_PORT, PTO_PORT),
@@ -38,9 +40,15 @@ public:
                         // Don't get an error please thank you
                     }
                     
+                    climb_button_state = 0;
+                    climb_button_state_prev = 1;
+                    is_climbing = 0;
+                    
     }
     
-    void RobotInit() { }
+    void RobotInit() {
+        wings.Set(1);
+    }
 
     void DisabledInit() { }
     
@@ -54,16 +62,25 @@ public:
     }
     
     void TeleopPeriodic() {
-        if(in.GetOtherButton(CLIMB_BUTTON)){
+        climb_button_state = in.GetOtherButton(CLIMB_BUTTON);
+        
+        if(climb_button_state != climb_button_state_prev){
+            is_climbing = !is_climbing;
+            climb_button_state_prev = climb_button_state;
+        }
+        
+        if(!is_climbing){
+            wings.Set(0);
             driveTrain.Tank(in.GetLeftY(), in.GetRightY());
             driveTrain.AutoShift();
             
             elevator.Set(in.GetOtherY());
             elevator.UpdatePID();
         }else{ // if bot is climbing
-            
+            wings.Set(1);
             // button pushed enabling climb, as soon as unpushed stop climb, joy, only climb if joy is going forward
             if(in.GetOtherY() > 0){
+                
                 driveTrain.Tank(in.GetOtherY(), in.GetOtherY());
                 elevator.Set(in.GetOtherY());
             }else{
