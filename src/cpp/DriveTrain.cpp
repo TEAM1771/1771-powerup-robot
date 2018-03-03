@@ -10,8 +10,14 @@ DriveTrain::DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int
 }
 
 void DriveTrain::Tank(double lrate, double rrate){
-    ltrm.Set(lrate);
-    rtrm.Set(-rrate);
+    if(isClimbing){
+        double avg = (lrate+rrate)/2.0;
+        ltrm.Set(avg);
+        rtrm.Set(-avg);
+    }else{
+        ltrm.Set(lrate);
+        rtrm.Set(-rrate);
+    }
 }
 
 void DriveTrain::Shift(bool toShiftOrNotToShift){

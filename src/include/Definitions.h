@@ -1,7 +1,7 @@
 #ifndef DEFINITIONS_H_
 #define DEFINITIONS_H_
 
-#define TBD                 1
+#define TBD                 1771
 
 // *TO-DO: CHANGE TBDs to actual values
 
@@ -9,8 +9,8 @@
 #define CLIMB_BUTTON        5
 
 /*========== Ports and Encoder channels ==========*/
-#define JOY_LEFT            TBD
-#define JOY_RIGHT           TBD
+#define JOY_LEFT            0
+#define JOY_RIGHT           1
 #define JOY_OTHER           TBD
 
 // Motors
@@ -35,15 +35,14 @@
 // Solenoids
 #define SHIFTER_PORT        TBD
 #define PTO_PORT            TBD
-#define ARM_SOLENOID_PORT   TBD
 #define FLIPPER_PORT        TBD
 #define WINGS_PORT          TBD
 
 /*========== Speed constants and Encoder thresholds ==========*/
 #define CL_SPEED            TBD
 
-#define SHIFT_UP_SPEED      TBD
-#define SHIFT_DOWN_SPEED    TBD
+#define SHIFT_UP_SPEED      2900
+#define SHIFT_DOWN_SPEED    2200
 #define CL_SHIFT_UP_SPEED   TBD
 #define CL_SHIFT_DOWN_SPEED TBD
 #define ELEVATOR_HIGH_PT    TBD

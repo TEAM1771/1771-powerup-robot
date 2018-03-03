@@ -1,7 +1,7 @@
 #include <Transmission.h>
 
 Transmission::Transmission(int m1port, int m2port, int ech1, int ech2) : motor1(m1port), motor2(m2port), enc(ech1, ech2){
-    
+    SetNeutralMode(NeutralMode::Brake);
 }
 
 void Transmission::Set(double rate){

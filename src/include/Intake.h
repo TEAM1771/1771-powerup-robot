@@ -13,17 +13,17 @@
 
 class Intake {
 private:
-    // Unsure of how many solenoids needed at the moment for the arms, will update soon
-    Solenoid arms;
-    
     Solenoid flipper;
     TalonSRX rin, lin;
     
     TalonSRX arm_pivot;
+    
+    // Might switch to encoder for ease
+    // Encoder pivot_enc;
     AnalogInput pivot_pot;
     
 public:
-    Intake(int arm_port, int arm_pivot_port, int arm_pivot_pot_port, int flipper_port, int rin_port, int lin_port);
+    Intake(int arm_pivot_port, int arm_pivot_pot_port, int flipper_port, int rin_port, int lin_port);
     
     void SetArms(bool state);
     
