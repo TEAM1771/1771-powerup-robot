@@ -69,7 +69,7 @@ public:
     
     void TeleopPeriodic() {
         PutNumbers();
-        if(in.GetLeftButton(2) && in.GetLeftButton(7) && in.GetRightButton(2) && in.GetRightButton(10)){
+        if(in.GetLeftButton(7) && in.GetLeftButton(10)){
             driveTrain.EnableClimb();
             climb = 1;
         }
@@ -77,6 +77,7 @@ public:
         if(!driveTrain.IsClimbing()){
             driveTrain.Tank(in.GetLeftY(),in.GetRightY());
             driveTrain.AutoShift();
+            elevator.SetForJoy(in.GetOtherY());
         }else{
             driveTrain.Tank(in.GetLeftY(), in.GetRightY());
             /** CLIMB SHIFTING MIGHT BREAK EVERYTHING BEWARE **/
@@ -90,6 +91,9 @@ public:
         SmartDashboard::PutString("Climb Status: ", std::to_string(climb));
         SmartDashboard::PutString("NavX Angle: ",std::to_string(navx->GetAngle()));
         SmartDashboard::PutString("NavX Error Status: ",std::to_string(naverr));
+        SmartDashboard::PutString("Left Joystick Y: ", std::to_string(in.GetLeftY()));
+        SmartDashboard::PutString("Right Joystick Y: ", std::to_string(in.GetRightY()));
+        SmartDashboard::PutString("Other Joystick Y: ", std::to_string(in.GetOtherY()));
     }
 };
 
