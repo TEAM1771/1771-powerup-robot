@@ -11,7 +11,7 @@
 /*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            0
 #define JOY_RIGHT           1
-#define JOY_OTHER           TBD
+#define JOY_OTHER           2
 
 // Motors
 #define LTR_MOTOR_A         5
