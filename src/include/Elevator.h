@@ -31,6 +31,7 @@ public:
     void UpdatePID();
     
     void Set(double rate);
+    void SetForJoy(double rate);
 };
 
 #endif // ELEVATOR_H_

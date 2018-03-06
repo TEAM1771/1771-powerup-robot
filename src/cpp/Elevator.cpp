@@ -27,7 +27,7 @@ void Elevator::UpdatePID(){
 void Elevator::SetPosition(int pos){
     desired_pos = pos;
 }
-
+                                                                                                                                            // Sarah wuz hier //
 void Elevator::Set(double rate){
     if(reaching_pos){
         if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
@@ -38,5 +38,15 @@ void Elevator::Set(double rate){
             SetPosition(-1);
             elvtr.Set(ControlMode::PercentOutput, rate);
         }
+    }
+}
+
+void Elevator::SetForJoy(double rate){
+    if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
+        if(rate < 0)
+            elvtr.Set(ControlMode::PercentOutput, rate);
+    }else if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
+        if(rate > 0)
+            elvtr.Set(ControlMode::PercentOutput, rate);
     }
 }
