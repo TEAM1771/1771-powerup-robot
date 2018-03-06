@@ -14,10 +14,10 @@
 #define JOY_OTHER           TBD
 
 // Motors
-#define LTR_MOTOR_A         TBD
-#define LTR_MOTOR_B         TBD
-#define RTR_MOTOR_A         TBD
-#define RTR_MOTOR_B         TBD
+#define LTR_MOTOR_A         5
+#define LTR_MOTOR_B         9
+#define RTR_MOTOR_A         3
+#define RTR_MOTOR_B         7
 #define ELEVATOR_MOTOR_PORT TBD
 #define RIGHT_ARM_IN_PORT   TBD
 #define LEFT_ARM_IN_PORT    TBD
