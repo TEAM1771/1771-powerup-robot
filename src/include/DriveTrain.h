@@ -34,6 +34,10 @@ public:
     void EnableClimb();
     void DisableClimb();
     bool IsClimbing();
+    
+    // Encoder functions
+    double GetAvgDistance();
+    double GetAvgRaw();
 };
 
 #endif /* DRIVETRAIN_H_ */

@@ -54,3 +54,11 @@ void DriveTrain::AutoShift(){
 bool DriveTrain::IsClimbing(){
     return isClimbing;
 }
+
+double DriveTrain::GetAvgDistance(){
+    return (ltrm.GetDistance() + rtrm.GetDistance())/2.0;
+}
+
+double DriveTrain::GetAvgRaw(){
+    return (ltrm.GetRawEnc() + rtrm.GetRawEnc())/2.0;
+}
