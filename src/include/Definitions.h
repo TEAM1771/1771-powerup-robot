@@ -5,8 +5,13 @@
 
 // *TO-DO: CHANGE TBDs to actual values
 
+#define PI                  3.1415926535897932384
+
 /*========== Button Mappings ==========*/
-#define CLIMB_BUTTON        5
+#define CLIMB_BUTTON_A      7
+#define CLIMB_BUTTON_B      10
+#define INTAKE_BUTTON_IN    3
+#define INTAKE_BUTTON_OUT   4
 
 /*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            0
@@ -47,6 +52,7 @@
 #define CL_SHIFT_DOWN_SPEED TBD
 #define ELEVATOR_HIGH_PT    TBD
 #define ELEVATOR_LOW_PT     TBD
+#define INTAKE_WHEEL_SPEED  TBD
 
 #define ARM_PIVOT_SPEED     TBD
 
@@ -54,5 +60,10 @@
 #define ELEVATOR_P          TBD
 #define ELEVATOR_I          TBD
 #define ELEVATOR_D          TBD
+
+/*========== Tipping Angle Constants ==========*/
+#define FORWARD_TIP         10
+#define BACKWARD_TIP        -10
+
 
 #endif // DEFINITIONS_H_
