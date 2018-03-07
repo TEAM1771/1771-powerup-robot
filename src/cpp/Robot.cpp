@@ -13,6 +13,7 @@
 #include <Inputs.h>
 #include <Elevator.h>
 #include <AHRS.h>
+#include <Point.h>
 
 
 using namespace frc;
@@ -26,14 +27,26 @@ private:
     Elevator elevator;
     Solenoid wings;
     AHRS *navx;
+    frc::DigitalInput hall_effect_sensor;
+    
+    // Error correction due to diagonal electronics board
+    double navrollinit, navpitchinit;
+    
     bool naverr = 0;
-    bool climb = 0;
+    double lastdist = 0;
+    
+    // Point for auton
+    Point currentPoint;
+    
+    int intake_val = 0;
+    
 public:
     
     Robot() :   driveTrain(LTR_MOTOR_A, LTR_MOTOR_B, RTR_MOTOR_A, RTR_MOTOR_B, L_ENC_CHA, L_ENC_CHB, R_ENC_CHA, R_ENC_CHB, SHIFTER_PORT, PTO_PORT),
                 in(JOY_LEFT, JOY_RIGHT, JOY_OTHER),
                 elevator(ELEVATOR_MOTOR_PORT, ELEVATOR_ENC_CHA, ELEVATOR_ENC_CHB, ARM_PIVOT_PORT, ARM_PIVOT_POT_PORT, FLIPPER_PORT, RIGHT_ARM_IN_PORT, LEFT_ARM_IN_PORT),
-                wings(WINGS_PORT){
+                wings(WINGS_PORT),
+                hall_effect_sensor(0){
                     
                     try{
                         navx = new AHRS(SPI::Port::kMXP);
@@ -47,8 +60,11 @@ public:
     }
     
     void RobotInit() {
+        PutNumbers();
         wings.Set(1);
-        climb = 0;
+        navx->ZeroYaw();
+        navrollinit = navx->GetRoll();
+        navpitchinit = navx->GetPitch();
     }
 
     void DisabledInit() { }
@@ -58,24 +74,50 @@ public:
         
     }
     void TeleopInit() {
-        climb = 0;
+        navrollinit = navx->GetRoll();
+        navpitchinit = navx->GetPitch();
     }
+    
     void TestInit() { }
 
-    void DisabledPeriodic() { }
+    void DisabledPeriodic() {
+        PutNumbers();
+    }
     void AutonomousPeriodic() {
-        
+        Point p;
+        double avgds = driveTrain.GetAvgRaw() - lastdist;
+        p.Set(avgds*cos(navx->GetAngle()*PI/180.0), avgds*sin(navx->GetAngle()*PI/180.0));
+        currentPoint += p;
+        lastdist = driveTrain.GetAvgRaw();
     }
     
     void TeleopPeriodic() {
+        /* SPIN CODE
+         * driveTrain.Tank(-1, -1);
+         */
+        
         PutNumbers();
-        if(in.GetLeftButton(7) && in.GetLeftButton(10)){
+        if(in.GetLeftButton(CLIMB_BUTTON_A) && in.GetLeftButton(CLIMB_BUTTON_B)){
             driveTrain.EnableClimb();
-            climb = 1;
         }
         
         if(!driveTrain.IsClimbing()){
-            driveTrain.Tank(in.GetLeftY(),in.GetRightY());
+            if(navx->GetRoll()-navrollinit > FORWARD_TIP){
+                driveTrain.Tank(0.5, 0.5);
+            }else if(navx->GetRoll()-navrollinit < BACKWARD_TIP){
+                driveTrain.Tank(-0.5, -0.5);
+            }else{ // Bot is not tipping
+                driveTrain.Tank(in.GetLeftY(),in.GetRightY());
+            }
+            
+            intake_val = 0;
+            if(in.GetOtherButton(INTAKE_BUTTON_IN)){
+                intake_val = 1;
+                elevator.intake.SetIntakeWheels(INTAKE_WHEEL_SPEED);
+            }else if(in.GetOtherButton(INTAKE_BUTTON_OUT)){
+                intake_val = -1;
+                elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED);
+            }
             driveTrain.AutoShift();
             elevator.SetForJoy(in.GetOtherY());
         }else{
@@ -83,17 +125,26 @@ public:
             /** CLIMB SHIFTING MIGHT BREAK EVERYTHING BEWARE **/
             driveTrain.AutoShift();
         }
+        
+        
     }
     
     void TestPeriodic() { }
     
     void PutNumbers(){
-        SmartDashboard::PutString("Climb Status: ", std::to_string(climb));
+        SmartDashboard::PutString("Climb Status: ", std::to_string(driveTrain.IsClimbing()));
         SmartDashboard::PutString("NavX Angle: ",std::to_string(navx->GetAngle()));
+        SmartDashboard::PutString("NavX Pitch: ", std::to_string(navx->GetRoll()-navrollinit));
+        SmartDashboard::PutString("NavX Pitch Raw: ", std::to_string(navx->GetRoll()));
+        SmartDashboard::PutString("Anti-tip: ", std::to_string((navx->GetRoll()-navrollinit > FORWARD_TIP || navx->GetRoll()-navrollinit < BACKWARD_TIP)));
         SmartDashboard::PutString("NavX Error Status: ",std::to_string(naverr));
         SmartDashboard::PutString("Left Joystick Y: ", std::to_string(in.GetLeftY()));
         SmartDashboard::PutString("Right Joystick Y: ", std::to_string(in.GetRightY()));
         SmartDashboard::PutString("Other Joystick Y: ", std::to_string(in.GetOtherY()));
+        SmartDashboard::PutString("X:", std::to_string(currentPoint.GetX()));
+        SmartDashboard::PutString("Y:", std::to_string(currentPoint.GetY()));
+        SmartDashboard::PutString("Hall Effect Status:", std::to_string(hall_effect_sensor.Get()));
+        SmartDashboard::PutString("Intake Wheel Direction:", std::to_string(intake_val));
     }
 };
 
