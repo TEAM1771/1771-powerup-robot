@@ -91,18 +91,20 @@ public:
 //        currentPoint += p;
 //        lastdist = driveTrain.GetAvgRaw();
         
-        double left_mod = 1.0, right_mod = 1.0;
-        
-        if(navx->GetAngle() > start_angle + 1){
-            left_mod = 1.7;
-        } if(navx->GetAngle() < start_angle - 1){
-            right_mod = 1.7;
+        if(driveTrain.GetAvgRaw() < 7000){
+            
+            double left_mod = 1.0, right_mod = 1.0;
+            
+            if(navx->GetAngle() > start_angle + 1){
+                left_mod = 1.7;
+            } if(navx->GetAngle() < start_angle - 1){
+                right_mod = 1.7;
+            }
+            
+            driveTrain.Tank(0.6 * left_mod, 0.6 * right_mod);
+            
+            
         }
-        
-        driveTrain.Tank(0.6 * left_mod, 0.6 * right_mod);
-        
-        
-        
     }
     
     void TeleopPeriodic() {
@@ -138,8 +140,12 @@ public:
             }else{
                 elevator.intake.SetFlipper(1);
             }
-            
-            driveTrain.AutoShift();
+            if(in.GetLeftButton(1)){
+                driveTrain.Shift(1);
+            }else{
+                driveTrain.Shift(0);
+            }
+            //driveTrain.AutoShift();
             elevator.SetForJoy(in.GetOtherY());
         }else{
             driveTrain.Tank(in.GetLeftY(), in.GetRightY());

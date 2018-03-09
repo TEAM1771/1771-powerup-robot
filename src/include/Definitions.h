@@ -39,9 +39,9 @@
 #define ARM_PIVOT_POT_PORT  TBD
 
 // Solenoids
-#define SHIFTER_PORT        TBD
+#define SHIFTER_PORT        0
 #define PTO_PORT            TBD
-#define FLIPPER_PORT        TBD
+#define FLIPPER_PORT        1
 #define WINGS_PORT          TBD
 
 /*========== Speed constants and Encoder thresholds ==========*/
