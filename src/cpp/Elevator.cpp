@@ -42,6 +42,7 @@ void Elevator::Set(double rate){
 }
 
 void Elevator::SetForJoy(double rate){
+    SmartDashboard::PutString("Current Elevator Encoder Val:", std::to_string(elvtr_enc.Get()));
     if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
         if(rate < 0)
             elvtr.Set(ControlMode::PercentOutput, rate);
