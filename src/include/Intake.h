@@ -19,8 +19,8 @@ private:
     TalonSRX arm_pivot;
     
     // Might switch to encoder for ease
-    // Encoder pivot_enc;
-    AnalogInput pivot_pot;
+    Encoder pivot_enc;
+    //AnalogInput pivot_pot;
     
 public:
     Intake(int arm_pivot_port, int arm_pivot_pot_port, int flipper_port, int rin_port, int lin_port);
@@ -30,8 +30,8 @@ public:
     void SetIntakeWheels(double rate);
     void SetFlipper(bool flip);
     
-    // Should be a potentiometer value representing arm position
-    void SetPivotArm(double pos);
+    // Should be an encoder value representing arm position; returns 0 if not at point and 1 if at point
+    int SetPivotArm(double pos);
     
 };
 

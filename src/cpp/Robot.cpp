@@ -77,6 +77,7 @@ public:
     void TeleopInit() {
         navrollinit = navx->GetRoll();
         navpitchinit = navx->GetPitch();
+        elevator.intake.SetFlipper(1);
     }
     
     void TestInit() { }
@@ -127,26 +128,24 @@ public:
             //          }
             
             intake_val = 0;
-            if(in.GetOtherButton(INTAKE_BUTTON_IN)){
-                intake_val = 1;
-                elevator.intake.SetIntakeWheels(INTAKE_WHEEL_SPEED);
-            }else if(in.GetOtherButton(INTAKE_BUTTON_OUT)){
-                intake_val = -1;
+            
+            if(in.GetLeftButton(INTAKE_BUTTON_IN)){
+                elevator.intake.SetPivotArm(INTAKE_IN_PT);
                 elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED);
+            }else if(in.GetLeftButton(INTAKE_BUTTON_SHOOT)){
+                if(elevator.intake.SetPivotArm(INTAKE_SHOOT_PT));
+                    elevator.intake.SetIntakeWheels(INTAKE_WHEEL_SPEED);
+            }else{
+                elevator.intake.SetPivotArm(INTAKE_UP_PT);
+                elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED * 0.2);
             }
             
-            if(in.GetOtherButton(INTAKE_BUTTON_FLIP)){
-                elevator.intake.SetFlipper(0);
-            }else{
-                elevator.intake.SetFlipper(1);
-            }
-            if(in.GetLeftButton(1)){
+            if(in.GetLeftButton(MANUAL_SHIFT_BUTTON)){
                 driveTrain.Shift(1);
             }else{
                 driveTrain.Shift(0);
             }
             //driveTrain.AutoShift();
-            elevator.SetForJoy(in.GetOtherY());
         }else{
             driveTrain.Tank(in.GetLeftY(), in.GetRightY());
             /** CLIMB SHIFTING MIGHT BREAK EVERYTHING BEWARE **/

@@ -11,8 +11,9 @@
 #define CLIMB_BUTTON_A      7
 #define CLIMB_BUTTON_B      10
 #define INTAKE_BUTTON_IN    3
-#define INTAKE_BUTTON_OUT   4
+#define INTAKE_BUTTON_SHOOT 4
 #define INTAKE_BUTTON_FLIP  5
+#define MANUAL_SHIFT_BUTTON 1
 
 /*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            0
@@ -20,13 +21,13 @@
 #define JOY_OTHER           2
 
 // Motors
-#define LTR_MOTOR_A         5
-#define LTR_MOTOR_B         9
+#define LTR_MOTOR_A         4
+#define LTR_MOTOR_B         7
 #define RTR_MOTOR_A         3
-#define RTR_MOTOR_B         7
+#define RTR_MOTOR_B         2
 #define ELEVATOR_MOTOR_PORT TBD
-#define RIGHT_ARM_IN_PORT   4
-#define LEFT_ARM_IN_PORT    2
+#define RIGHT_ARM_IN_PORT   9
+#define LEFT_ARM_IN_PORT    8
 #define ARM_PIVOT_PORT      1
 
 // Encoders (and a single potentiometer)
@@ -36,7 +37,7 @@
 #define R_ENC_CHB           TBD
 #define ELEVATOR_ENC_CHA    TBD
 #define ELEVATOR_ENC_CHB    TBD
-#define ARM_PIVOT_POT_PORT  TBD
+#define ARM_PIVOT_POT_PORT  4
 
 // Solenoids
 #define SHIFTER_PORT        0
@@ -53,7 +54,10 @@
 #define CL_SHIFT_DOWN_SPEED TBD
 #define ELEVATOR_HIGH_PT    TBD
 #define ELEVATOR_LOW_PT     TBD
-#define INTAKE_WHEEL_SPEED  TBD
+#define INTAKE_WHEEL_SPEED  1
+#define INTAKE_IN_PT        TBD
+#define INTAKE_UP_PT        TBD
+#define INTAKE_SHOOT_PT     TBD
 
 #define ARM_PIVOT_SPEED     TBD
 
