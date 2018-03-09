@@ -12,6 +12,7 @@
 #define CLIMB_BUTTON_B      10
 #define INTAKE_BUTTON_IN    3
 #define INTAKE_BUTTON_OUT   4
+#define INTAKE_BUTTON_FLIP  5
 
 /*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            0
@@ -23,7 +24,7 @@
 #define LTR_MOTOR_B         9
 #define RTR_MOTOR_A         3
 #define RTR_MOTOR_B         7
-#define ELEVATOR_MOTOR_PORT TBD
+#define ELEVATOR_MOTOR_PORT 4
 #define RIGHT_ARM_IN_PORT   TBD
 #define LEFT_ARM_IN_PORT    TBD
 #define ARM_PIVOT_PORT      TBD
@@ -62,8 +63,8 @@
 #define ELEVATOR_D          TBD
 
 /*========== Tipping Angle Constants ==========*/
-#define FORWARD_TIP         10
-#define BACKWARD_TIP        -10
+#define FORWARD_TIP         18
+#define BACKWARD_TIP        -18
 
 
 #endif // DEFINITIONS_H_
