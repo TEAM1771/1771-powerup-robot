@@ -5,7 +5,7 @@
 
 // *TO-DO: CHANGE TBDs to actual values
 
-#define PI                  3.1415926535897932384
+#define PI                  3.1415926535897932384623383279
 
 /*========== Button Mappings ==========*/
 #define CLIMB_BUTTON_A      7
@@ -24,10 +24,10 @@
 #define LTR_MOTOR_B         9
 #define RTR_MOTOR_A         3
 #define RTR_MOTOR_B         7
-#define ELEVATOR_MOTOR_PORT 4
-#define RIGHT_ARM_IN_PORT   TBD
-#define LEFT_ARM_IN_PORT    TBD
-#define ARM_PIVOT_PORT      TBD
+#define ELEVATOR_MOTOR_PORT TBD
+#define RIGHT_ARM_IN_PORT   4
+#define LEFT_ARM_IN_PORT    2
+#define ARM_PIVOT_PORT      1
 
 // Encoders (and a single potentiometer)
 #define L_ENC_CHA           TBD
