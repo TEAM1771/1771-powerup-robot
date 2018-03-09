@@ -34,6 +34,7 @@ private:
     
     bool naverr = 0;
     double lastdist = 0;
+    double start_angle;
     
     // Point for auton
     Point currentPoint;
@@ -71,7 +72,7 @@ public:
     
     void AutonomousInit() {
         navx->ZeroYaw();
-        
+        start_angle = navx->GetAngle();
     }
     void TeleopInit() {
         navrollinit = navx->GetRoll();
@@ -84,11 +85,24 @@ public:
         PutNumbers();
     }
     void AutonomousPeriodic() {
-        Point p;
-        double avgds = driveTrain.GetAvgRaw() - lastdist;
-        p.Set(avgds*cos(navx->GetAngle()*PI/180.0), avgds*sin(navx->GetAngle()*PI/180.0));
-        currentPoint += p;
-        lastdist = driveTrain.GetAvgRaw();
+//        Point p;
+//        double avgds = driveTrain.GetAvgRaw() - lastdist;
+//        p.Set(avgds*cos(navx->GetAngle()*PI/180.0), avgds*sin(navx->GetAngle()*PI/180.0));
+//        currentPoint += p;
+//        lastdist = driveTrain.GetAvgRaw();
+        
+        double left_mod = 1.0, right_mod = 1.0;
+        
+        if(navx->GetAngle() > start_angle + 1){
+            left_mod = 1.7;
+        } if(navx->GetAngle() < start_angle - 1){
+            right_mod = 1.7;
+        }
+        
+        driveTrain.Tank(0.6 * left_mod, 0.6 * right_mod);
+        
+        
+        
     }
     
     void TeleopPeriodic() {
@@ -97,18 +111,18 @@ public:
          */
         
         PutNumbers();
-        if(in.GetLeftButton(CLIMB_BUTTON_A) && in.GetLeftButton(CLIMB_BUTTON_B)){
-            driveTrain.EnableClimb();
-        }
+//        if(in.GetLeftButton(CLIMB_BUTTON_A) && in.GetLeftButton(CLIMB_BUTTON_B)){
+//            driveTrain.EnableClimb();
+//        }
         
         if(!driveTrain.IsClimbing()){
-            if(navx->GetRoll()-navrollinit > FORWARD_TIP){
-                driveTrain.Tank(0.5, 0.5);
-            }else if(navx->GetRoll()-navrollinit < BACKWARD_TIP){
-                driveTrain.Tank(-0.5, -0.5);
-            }else{ // Bot is not tipping
+//            if(navx->GetRoll()-navrollinit > FORWARD_TIP){
+//                driveTrain.Tank(1.5 * in.GetLeftY(), 1.5 * in.GetRightY());
+//            }else if(navx->GetRoll()-navrollinit < BACKWARD_TIP){
+//                driveTrain.Tank(-1.5 * in.GetLeftY(), -1.5 * in.GetRightY());
+//            }else{ // Bot is not tipping
                 driveTrain.Tank(in.GetLeftY(),in.GetRightY());
-            }
+            //          }
             
             intake_val = 0;
             if(in.GetOtherButton(INTAKE_BUTTON_IN)){
@@ -118,6 +132,13 @@ public:
                 intake_val = -1;
                 elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED);
             }
+            
+            if(in.GetOtherButton(INTAKE_BUTTON_FLIP)){
+                elevator.intake.SetFlipper(0);
+            }else{
+                elevator.intake.SetFlipper(1);
+            }
+            
             driveTrain.AutoShift();
             elevator.SetForJoy(in.GetOtherY());
         }else{
