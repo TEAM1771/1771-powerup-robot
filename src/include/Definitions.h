@@ -37,7 +37,8 @@
 #define R_ENC_CHB           TBD
 #define ELEVATOR_ENC_CHA    TBD
 #define ELEVATOR_ENC_CHB    TBD
-#define ARM_PIVOT_POT_PORT  4
+#define ARM_PIVOT_ENC_A	    4
+#define ARM_PIVOT_ENC_B     5
 
 // Solenoids
 #define SHIFTER_PORT        0

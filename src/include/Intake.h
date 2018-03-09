@@ -19,11 +19,11 @@ private:
     TalonSRX arm_pivot;
     
     // Might switch to encoder for ease
-    Encoder pivot_enc;
+    frc::Encoder pivot_enc;
     //AnalogInput pivot_pot;
     
 public:
-    Intake(int arm_pivot_port, int arm_pivot_pot_port, int flipper_port, int rin_port, int lin_port);
+    Intake(int arm_pivot_port, int flipper_port, int rin_port, int lin_port, int arm_enc_a, int arm_enc_b);
     
     void SetArms(bool state);
     
