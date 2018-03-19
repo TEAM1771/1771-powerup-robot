@@ -16,7 +16,6 @@
 #include <Point.h>
 
 
-using namespace frc;
 
 class Robot: public IterativeRobot {
 private:
@@ -60,6 +59,23 @@ public:
                     
     }
     
+	void PutNumbers(){
+        SmartDashboard::PutString("Climb Status: ", std::to_string(driveTrain.IsClimbing()));
+        SmartDashboard::PutString("NavX Angle: ",std::to_string(navx->GetAngle()));
+        SmartDashboard::PutString("NavX Pitch: ", std::to_string(navx->GetRoll()-navrollinit));
+        SmartDashboard::PutString("NavX Pitch Raw: ", std::to_string(navx->GetRoll()));
+        SmartDashboard::PutString("Anti-tip: ", std::to_string((navx->GetRoll()-navrollinit > FORWARD_TIP || navx->GetRoll()-navrollinit < BACKWARD_TIP)));
+        SmartDashboard::PutString("NavX Error Status: ",std::to_string(naverr));
+        SmartDashboard::PutString("Left Joystick Y: ", std::to_string(in.GetLeftY()));
+        SmartDashboard::PutString("Right Joystick Y: ", std::to_string(in.GetRightY()));
+        SmartDashboard::PutString("Other Joystick Y: ", std::to_string(in.GetOtherY()));
+        SmartDashboard::PutString("X:", std::to_string(currentPoint.GetX()));
+        SmartDashboard::PutString("Y:", std::to_string(currentPoint.GetY()));
+        SmartDashboard::PutString("Hall Effect Status:", std::to_string(hall_effect_sensor.Get()));
+        SmartDashboard::PutString("Intake Wheel Direction:", std::to_string(intake_val));
+		SmartDashboard::PutString("Pivot Arm Enc:", std::to_string(elevator.intake.GetPivotEnc()));
+    }
+	
     void RobotInit() {
         PutNumbers();
         wings.Set(1);
@@ -68,11 +84,17 @@ public:
         navpitchinit = navx->GetPitch();
     }
 
-    void DisabledInit() { }
+    void DisabledInit() {
+		driveTrain.Shift(0);
+	
+		elevator.intake.SetFlipper(1);
+	}
     
     void AutonomousInit() {
         navx->ZeroYaw();
         start_angle = navx->GetAngle();
+		elevator.intake.ZeroEnc();
+		elevator.intake.SetFlipper(1);
     }
     void TeleopInit() {
         navrollinit = navx->GetRoll();
@@ -85,33 +107,14 @@ public:
     void DisabledPeriodic() {
         PutNumbers();
     }
+	
     void AutonomousPeriodic() {
-//        Point p;
-//        double avgds = driveTrain.GetAvgRaw() - lastdist;
-//        p.Set(avgds*cos(navx->GetAngle()*PI/180.0), avgds*sin(navx->GetAngle()*PI/180.0));
-//        currentPoint += p;
-//        lastdist = driveTrain.GetAvgRaw();
-        
-        if(driveTrain.GetAvgRaw() < 7000){
-            
-            double left_mod = 1.0, right_mod = 1.0;
-            
-            if(navx->GetAngle() > start_angle + 1){
-                left_mod = 1.7;
-            } if(navx->GetAngle() < start_angle - 1){
-                right_mod = 1.7;
-            }
-            
-            driveTrain.Tank(0.6 * left_mod, 0.6 * right_mod);
-            
-            
-        }
+		if(Timer::GetMatchTime() <= 11){
+			driveTrain.Tank(-0.15, -0.15);
+		}
     }
     
     void TeleopPeriodic() {
-        /* SPIN CODE
-         * driveTrain.Tank(-1, -1);
-         */
         
         PutNumbers();
 //        if(in.GetLeftButton(CLIMB_BUTTON_A) && in.GetLeftButton(CLIMB_BUTTON_B)){
@@ -129,23 +132,28 @@ public:
             
             intake_val = 0;
             
-            if(in.GetLeftButton(INTAKE_BUTTON_IN)){
+            if(in.GetOtherButton(INTAKE_BUTTON_IN_PT)){
                 elevator.intake.SetPivotArm(INTAKE_IN_PT);
-                elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED);
-            }else if(in.GetLeftButton(INTAKE_BUTTON_SHOOT)){
-                if(elevator.intake.SetPivotArm(INTAKE_SHOOT_PT));
-                    elevator.intake.SetIntakeWheels(INTAKE_WHEEL_SPEED);
+            }else if(in.GetOtherButton(INTAKE_BUTTON_ANGLE)){
+                elevator.intake.SetPivotArm(INTAKE_SHOOT_PT);
             }else{
                 elevator.intake.SetPivotArm(INTAKE_UP_PT);
-                elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED * 0.2);
             }
-            
-            if(in.GetLeftButton(MANUAL_SHIFT_BUTTON)){
+			
+			if(in.GetOtherButton(INTAKE_BUTTON_IN)){
+				elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED);
+			}else if(in.GetOtherButton(INTAKE_BUTTON_SHOOT)){
+				elevator.intake.SetIntakeWheels(INTAKE_WHEEL_SPEED);
+			}else{
+				elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED * 0.1);
+			}
+			
+            if(in.GetRightButton(MANUAL_SHIFT_BUTTON)){
                 driveTrain.Shift(1);
             }else{
-                driveTrain.Shift(0);
-            }
-            //driveTrain.AutoShift();
+				driveTrain.Shift(0);
+			}
+			
         }else{
             driveTrain.Tank(in.GetLeftY(), in.GetRightY());
             /** CLIMB SHIFTING MIGHT BREAK EVERYTHING BEWARE **/
@@ -155,23 +163,11 @@ public:
         
     }
     
-    void TestPeriodic() { }
-    
-    void PutNumbers(){
-        SmartDashboard::PutString("Climb Status: ", std::to_string(driveTrain.IsClimbing()));
-        SmartDashboard::PutString("NavX Angle: ",std::to_string(navx->GetAngle()));
-        SmartDashboard::PutString("NavX Pitch: ", std::to_string(navx->GetRoll()-navrollinit));
-        SmartDashboard::PutString("NavX Pitch Raw: ", std::to_string(navx->GetRoll()));
-        SmartDashboard::PutString("Anti-tip: ", std::to_string((navx->GetRoll()-navrollinit > FORWARD_TIP || navx->GetRoll()-navrollinit < BACKWARD_TIP)));
-        SmartDashboard::PutString("NavX Error Status: ",std::to_string(naverr));
-        SmartDashboard::PutString("Left Joystick Y: ", std::to_string(in.GetLeftY()));
-        SmartDashboard::PutString("Right Joystick Y: ", std::to_string(in.GetRightY()));
-        SmartDashboard::PutString("Other Joystick Y: ", std::to_string(in.GetOtherY()));
-        SmartDashboard::PutString("X:", std::to_string(currentPoint.GetX()));
-        SmartDashboard::PutString("Y:", std::to_string(currentPoint.GetY()));
-        SmartDashboard::PutString("Hall Effect Status:", std::to_string(hall_effect_sensor.Get()));
-        SmartDashboard::PutString("Intake Wheel Direction:", std::to_string(intake_val));
+    void TestPeriodic() {
+    	PutNumbers();
     }
+    
+    
 };
 
 START_ROBOT_CLASS(Robot)
