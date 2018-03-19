@@ -19,7 +19,7 @@ private:
     TalonSRX arm_pivot;
     
     // Might switch to encoder for ease
-    frc::Encoder pivot_enc;
+    //frc::Encoder pivot_enc;
     //AnalogInput pivot_pot;
     
 public:
@@ -32,7 +32,9 @@ public:
     
     // Should be an encoder value representing arm position; returns 0 if not at point and 1 if at point
     int SetPivotArm(double pos);
-    
+    double GetPivotEnc(); 
+	void ZeroEnc();
+	void SetPivotSpeed(double speed);
 };
 
 #endif // INTAKE_H_
