@@ -6,14 +6,16 @@
 // *TO-DO: CHANGE TBDs to actual values
 
 #define PI                  3.1415926535897932384623383279
+#define sigmoid(x)			1.0/(1+exp(x))
 
 /*========== Button Mappings ==========*/
 #define CLIMB_BUTTON_A      7
 #define CLIMB_BUTTON_B      10
 #define INTAKE_BUTTON_IN    3
 #define INTAKE_BUTTON_SHOOT 4
-#define INTAKE_BUTTON_FLIP  5
-#define MANUAL_SHIFT_BUTTON 1
+#define INTAKE_BUTTON_IN_PT 5
+#define INTAKE_BUTTON_ANGLE	6
+#define MANUAL_SHIFT_BUTTON 11
 
 /*========== Ports and Encoder channels ==========*/
 #define JOY_LEFT            0
@@ -22,12 +24,12 @@
 
 // Motors
 #define LTR_MOTOR_A         4
-#define LTR_MOTOR_B         7
+#define LTR_MOTOR_B         2
 #define RTR_MOTOR_A         3
-#define RTR_MOTOR_B         2
+#define RTR_MOTOR_B         7
 #define ELEVATOR_MOTOR_PORT TBD
 #define RIGHT_ARM_IN_PORT   9
-#define LEFT_ARM_IN_PORT    8
+#define LEFT_ARM_IN_PORT    5
 #define ARM_PIVOT_PORT      1
 
 // Encoders (and a single potentiometer)
@@ -41,9 +43,9 @@
 #define ARM_PIVOT_ENC_B     5
 
 // Solenoids
-#define SHIFTER_PORT        0
+#define SHIFTER_PORT        TBD
 #define PTO_PORT            TBD
-#define FLIPPER_PORT        1
+#define FLIPPER_PORT        0
 #define WINGS_PORT          TBD
 
 /*========== Speed constants and Encoder thresholds ==========*/
@@ -56,9 +58,9 @@
 #define ELEVATOR_HIGH_PT    TBD
 #define ELEVATOR_LOW_PT     TBD
 #define INTAKE_WHEEL_SPEED  1
-#define INTAKE_IN_PT        TBD
-#define INTAKE_UP_PT        TBD
-#define INTAKE_SHOOT_PT     TBD
+#define INTAKE_IN_PT        -5038.0
+#define INTAKE_UP_PT        0.0
+#define INTAKE_SHOOT_PT     -2016.0
 
 #define ARM_PIVOT_SPEED     TBD
 
