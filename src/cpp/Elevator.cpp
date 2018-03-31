@@ -9,44 +9,71 @@ elvtr_enc(elv_ch_a, elv_ch_b){
     desired_pos = 0;
     derivative = 0, last_err = 0;
     reaching_pos = 0;
+	elvtr.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+	elvtr.SetSensorPhase(0);
+	elvtr.SetNeutralMode(NeutralMode::Brake);
+	arm_mode = 0;
 }
 
 void Elevator::UpdatePID(){
-    if(desired_pos == -1){
-        i += elvtr_enc.Get()*.02;
-        last_err = error;
-        error = desired_pos - elvtr_enc.Get();
-        if(error > 1)
-            reaching_pos = 1;
-        change = ELEVATOR_P*error + ELEVATOR_I*i + ELEVATOR_D*((error - last_err)/.02);
-        
-        elvtr.Set(ControlMode::PercentOutput, change);
-    }
+		
+        error = desired_pos - GetElvtrEnc();
+        change = ELEVATOR_P*error/ELEVATOR_SCALE_PT;
+		//if(GetElvtrEnc() < ELEVATOR_SWITCH_PT)
+		//	if(change < 0) change = 0;
+		//else
+		//	if(change < 0) change = 0.05;
+	
+		//if(change < -.01 && GetElvtrEnc() > ELEVATOR_SWITCH_PT) change = .05;
+		
+		if(change < .075){
+			change = .075;
+			elvtr.SetNeutralMode(NeutralMode::Coast);
+		}else{
+			elvtr.SetNeutralMode(NeutralMode::Brake);
+		}
+		
+		
+		/* if(change < .01){
+			change = 0;
+			arm_mode = ~arm_mode;
+			if(arm_mode)
+				elvtr.SetNeutralMode(NeutralMode::Brake);
+			else
+				elvtr.SetNeutralMode(NeutralMode::Coast);
+		}else{
+			elvtr.SetNeutralMode(NeutralMode::Brake);
+		} */
+		
+		
+		//if(change < 0)
+		//	change = 0;
+		
+		elvtr.Set(ControlMode::PercentOutput, change);
 }
 
 void Elevator::SetPosition(int pos){
     desired_pos = pos;
 }
+
+double Elevator::GetElvtrEnc(){
+	return elvtr.GetSelectedSensorPosition(0);
+}
                                                                                                                                             // Sarah wuz hier //
 void Elevator::Set(double rate){
-    if(reaching_pos){
-        if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
-            SetPosition((ELEVATOR_HIGH_PT+ELEVATOR_LOW_PT)/2);  // Temporary midpoint value -> change during testing
-        }else if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
-            SetPosition((ELEVATOR_LOW_PT+ELEVATOR_HIGH_PT)/2);  // Temporary midpoint value -> change during testing
-        }else{
-            SetPosition(-1);
-            elvtr.Set(ControlMode::PercentOutput, rate);
-        }
-    }
+	elvtr.Set(ControlMode::PercentOutput, rate);
+}
+
+void Elevator::SetNeutralMode(NeutralMode nm){
+	elvtr.SetNeutralMode(nm);
 }
 
 void Elevator::SetForJoy(double rate){
     SmartDashboard::PutString("Current Elevator Encoder Val:", std::to_string(elvtr_enc.Get()));
-    if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
+    if(elvtr_enc.Get() > ELEVATOR_SCALE_PT){
         if(rate < 0)
             elvtr.Set(ControlMode::PercentOutput, rate);
-    }else if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
+    }else if(elvtr_enc.Get() < ELEVATOR_DOWN_PT){
         if(rate > 0)
             elvtr.Set(ControlMode::PercentOutput, rate);
     }
