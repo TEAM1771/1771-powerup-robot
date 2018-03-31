@@ -12,14 +12,14 @@ elvtr_enc(elv_ch_a, elv_ch_b){
 }
 
 void Elevator::UpdatePID(){
-    if(desired_pos == -1){
-        i += elvtr_enc.Get()*.02;
+    if(/*desired_pos == -1*/ 1){
+        i += elvtr_enc.Get()*RIO_CYCLE;
         last_err = error;
         error = desired_pos - elvtr_enc.Get();
         if(error > 1)
             reaching_pos = 1;
-        change = ELEVATOR_P*error + ELEVATOR_I*i + ELEVATOR_D*((error - last_err)/.02);
-        
+        //change = ELEVATOR_P*error + ELEVATOR_I*i + ELEVATOR_D*((error - last_err)/RIO_CYCLE);
+        change = error/ELEVATOR_SCALE_PT;
         elvtr.Set(ControlMode::PercentOutput, change);
     }
 }
@@ -30,10 +30,10 @@ void Elevator::SetPosition(int pos){
                                                                                                                                             // Sarah wuz hier //
 void Elevator::Set(double rate){
     if(reaching_pos){
-        if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
-            SetPosition((ELEVATOR_HIGH_PT+ELEVATOR_LOW_PT)/2);  // Temporary midpoint value -> change during testing
-        }else if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
-            SetPosition((ELEVATOR_LOW_PT+ELEVATOR_HIGH_PT)/2);  // Temporary midpoint value -> change during testing
+        if(elvtr_enc.Get() < ELEVATOR_DOWN_PT){
+            SetPosition((ELEVATOR_SCALE_PT+ELEVATOR_DOWN_PT)/2);  // Temporary midpoint value -> change during testing
+        }else if(elvtr_enc.Get() > ELEVATOR_SCALE_PT){
+            SetPosition((ELEVATOR_DOWN_PT+ELEVATOR_SCALE_PT)/2);  // Temporary midpoint value -> change during testing
         }else{
             SetPosition(-1);
             elvtr.Set(ControlMode::PercentOutput, rate);
@@ -43,10 +43,10 @@ void Elevator::Set(double rate){
 
 void Elevator::SetForJoy(double rate){
     SmartDashboard::PutString("Current Elevator Encoder Val:", std::to_string(elvtr_enc.Get()));
-    if(elvtr_enc.Get() > ELEVATOR_HIGH_PT){
+    if(elvtr_enc.Get() > ELEVATOR_SCALE_PT){
         if(rate < 0)
             elvtr.Set(ControlMode::PercentOutput, rate);
-    }else if(elvtr_enc.Get() < ELEVATOR_LOW_PT){
+    }else if(elvtr_enc.Get() < ELEVATOR_DOWN_PT){
         if(rate > 0)
             elvtr.Set(ControlMode::PercentOutput, rate);
     }
