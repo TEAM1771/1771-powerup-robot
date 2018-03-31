@@ -26,4 +26,4 @@ To deploy to roborio run:
 
 ## Authors
 
-* **Justin DeSimpliciis** - *Initial work* - [jscd](https://github.com/jscd)
+* **Justin DeSimpliciis** - *Initial & Ongoing work* - [jscd](https://github.com/jscd)
