@@ -22,6 +22,7 @@ private:
     
 	bool arm_mode;
     bool reaching_pos;
+	double last_enc;
 public:
     Intake intake;
     Encoder elvtr_enc;
