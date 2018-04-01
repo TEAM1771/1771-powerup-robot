@@ -13,41 +13,63 @@ elvtr_enc(elv_ch_a, elv_ch_b){
 	elvtr.SetSensorPhase(0);
 	elvtr.SetNeutralMode(NeutralMode::Brake);
 	arm_mode = 0;
+	last_enc = 0;
+	
 }
 
 void Elevator::UpdatePID(){
+		static double max_change = -10;
+		static double min_change = 10;
+		SmartDashboard::PutNumber("max_change:", max_change);
+		SmartDashboard::PutNumber("min_change:", min_change);
+
 		
         error = desired_pos - GetElvtrEnc();
         change = ELEVATOR_P*error/ELEVATOR_SCALE_PT;
-		//if(GetElvtrEnc() < ELEVATOR_SWITCH_PT)
-		//	if(change < 0) change = 0;
-		//else
-		//	if(change < 0) change = 0.05;
-	
-		//if(change < -.01 && GetElvtrEnc() > ELEVATOR_SWITCH_PT) change = .05;
 		
-		if(change < .075){
-			change = .075;
-			elvtr.SetNeutralMode(NeutralMode::Coast);
+		/**   CHANGE @ .1 HOLDS ELEVATOR IN POSITION    **/
+		/* if(change < 0){
+			elvtr.SetNeutralMode(NeutralMode::Brake);
+			change = 0;
+		} */
+		
+		// TEST BELOW
+		 /* if(change < 0){
+			change = 0;
+		 }  */
+		
+		/*if(arm_mode != prev_arm_mode){
+			if(arm_mode == 0)
+				elvtr.SetNeutralMode(NeutralMode::Brake);
+			else if(arm_mode == 1)
+				elvtr.SetNeutralMode(NeutralMode::Coast);
+			prev_arm_mode = arm_mode;
+		} */
+		
+		if(change < 0){
+			change = 0;
+			SmartDashboard::PutString("enc-last diff:", std::to_string(fabs(GetElvtrEnc() - last_enc)));
+			if(GetElvtrEnc() < ELEVATOR_SWITCH_PT/3){
+				arm_mode = 0;
+			}else if(arm_mode && fabs(GetElvtrEnc() - last_enc) >= ELEVATOR_GAP_COAST){
+				arm_mode = !arm_mode;
+				last_enc = GetElvtrEnc();
+			}else if(!arm_mode && fabs(GetElvtrEnc() - last_enc) >= ELEVATOR_GAP_BRAKE){
+				arm_mode = !arm_mode;
+				last_enc = GetElvtrEnc();
+			}
+			
+			if(arm_mode){
+				elvtr.SetNeutralMode(NeutralMode::Coast);
+			}else{
+				elvtr.SetNeutralMode(NeutralMode::Brake);
+			}
 		}else{
 			elvtr.SetNeutralMode(NeutralMode::Brake);
 		}
-		
-		
-		/* if(change < .01){
-			change = 0;
-			arm_mode = ~arm_mode;
-			if(arm_mode)
-				elvtr.SetNeutralMode(NeutralMode::Brake);
-			else
-				elvtr.SetNeutralMode(NeutralMode::Coast);
-		}else{
-			elvtr.SetNeutralMode(NeutralMode::Brake);
-		} */
-		
-		
-		//if(change < 0)
-		//	change = 0;
+		 
+		if(change > max_change) max_change = change;
+		if(change < min_change) min_change = change;
 		
 		elvtr.Set(ControlMode::PercentOutput, change);
 }
