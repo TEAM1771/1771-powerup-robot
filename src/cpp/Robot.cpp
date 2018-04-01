@@ -15,7 +15,6 @@
 #include <AHRS.h>
 #include <Point.h>
 
-
 class Robot: public IterativeRobot {
 private:
     frc::LiveWindow* lw = LiveWindow::GetInstance();
@@ -75,11 +74,14 @@ public:
 		elevator.SetNeutralMode(NeutralMode::Brake);
 	}
     
-    void AutonomousInit() {}
+    void AutonomousInit() {
+		elevator.intake.SetFlipper(1);
+	}
     
     void TeleopInit() {
         navrollinit = navx->GetRoll();
         navpitchinit = navx->GetPitch();
+		elevator.SetNeutralMode(NeutralMode::Brake);
         elevator.intake.SetFlipper(1);
 		elevatorPosition = ELEVATOR_DOWN_PT;
     }
@@ -101,11 +103,15 @@ public:
         currentPoint += p;
         lastdist = driveTrain.GetAvgRaw();
         
+		
+		SmartDashboard::PutString("Match Time:", std::to_string(Timer::GetMatchTime()));
+		
         if(Timer::GetMatchTime() <= 9){
             driveTrain.Tank(-0.2, -0.2);
         }
-        
-        AntiTip();
+		
+        elevator.intake.SetPivotArm(INTAKE_UP_PT);
+		elevator.intake.SetIntakeWheels(-INTAKE_WHEEL_SPEED*.1);
     }
     
     void TeleopPeriodic() {
@@ -159,8 +165,16 @@ public:
     void IntakePosition(){
         if(INTAKE_POS_BUTTON){
 			elevator.intake.SetPivotArm(INTAKE_IN_PT);
+		}else if(INTAKE_PLACE_BUTTON){
+			elevator.intake.SetPivotArm(INTAKE_IN_PT);
 		}else{
 			elevator.intake.SetPivotArm(INTAKE_UP_PT);
+		}
+		
+		if(INTAKE_MANFL_BUTTON || INTAKE_PLACE_BUTTON){
+			elevator.intake.SetFlipper(0);
+		}else{
+			elevator.intake.SetFlipper(1);
 		}
     }
     
@@ -203,6 +217,9 @@ public:
         SmartDashboard::PutString("Pivot Arm Enc:", std::to_string(elevator.intake.GetPivotEnc()));
         SmartDashboard::PutString("dRoll:", std::to_string(dRoll));
         SmartDashboard::PutString("Elevator Encoder Value:", std::to_string(elevator.GetElvtrEnc()));
+		SmartDashboard::PutString("Transmission Avg Raw:", std::to_string(driveTrain.GetAvgRaw()));
+		SmartDashboard::PutString("Transmission Avg Dist:", std::to_string(driveTrain.GetAvgDistance()));
+		SmartDashboard::PutString("Transmission Speeds:", std::to_string(driveTrain.GetSpeed()));
     }
 };
 
