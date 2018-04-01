@@ -43,10 +43,10 @@ void DriveTrain::AutoShift(){
         else if(GetSpeed() < SHIFT_DOWN_SPEED)
             Shift(0);
     }else{
-        if(GetSpeed() > CL_SHIFT_UP_SPEED)
+        /*if(GetSpeed() > CL_SHIFT_UP_SPEED)
             Shift(1);
         else if(GetSpeed() <CL_SHIFT_UP_SPEED)
-            Shift(0);
+            Shift(0);*/
     }
         
 }
