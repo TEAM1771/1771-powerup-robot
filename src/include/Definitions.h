@@ -11,13 +11,14 @@
 
 /*========== Button Mappings ==========*/
 #define INTAKE_POS_BUTTON   in.GetOtherButton(5)
-#define SHOOT_POS_BUTTON    in.GetOtherButton(6)
 #define INTAKE_IN_BUTTON    in.GetOtherButton(3)
 #define INTAKE_OUT_BUTTON   in.GetOtherButton(4)
 #define INTAKE_FLAP_BUTTON  in.GetOtherButton(1)
 #define ELVTR_SCALE_BUTTON  in.GetOtherButton(7)
 #define ELVTR_DOWN_BUTTON   in.GetOtherButton(11)
 #define ELVTR_SWITCH_BUTTON in.GetOtherButton(9)
+#define INTAKE_PLACE_BUTTON	in.GetOtherButton(6)
+#define INTAKE_MANFL_BUTTON	in.GetRightButton(11)
 
 
 /*========== Ports and Encoder channels ==========*/
@@ -58,15 +59,18 @@
 #define SHIFT_DOWN_SPEED    2200
 #define CL_SHIFT_UP_SPEED   TBD
 #define CL_SHIFT_DOWN_SPEED TBD
-#define ELEVATOR_SCALE_PT   38460.0
+#define ELEVATOR_SCALE_PT   39460.0
 #define ELEVATOR_DOWN_PT    0.0
 #define ELEVATOR_SWITCH_PT  10644.0
 #define INTAKE_WHEEL_SPEED  1
-#define INTAKE_IN_PT        -4469.0
+#define INTAKE_IN_PT        -4750.0
 #define INTAKE_UP_PT        -1000
 #define INTAKE_SHOOT_PT     TBD
 
 #define ARM_PIVOT_SPEED     TBD
+
+#define ELEVATOR_GAP_COAST	2500
+#define ELEVATOR_GAP_BRAKE	1000
 
 /*========== Coefficients for PID controllers ==========*/
 #define ELEVATOR_P          2
