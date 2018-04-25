@@ -19,6 +19,10 @@
 #define ELVTR_SWITCH_BUTTON in.GetOtherButton(9)
 #define INTAKE_PLACE_BUTTON	in.GetOtherButton(6)
 #define INTAKE_MANFL_BUTTON	in.GetRightButton(11)
+#define ENABLE_CLIMB_BUTTON	in.GetRightButton(1) && in.GetLeftButton(1)
+#define CLIMB_MOTOR_BUTTON	in.GetRightButton(3)
+#define CLIMB_INTAKE_BUTTON	in.GetOtherButton(8)
+#define INTAKE_FARDOWN		in.GetOtherButton(10)
 
 
 /*========== Ports and Encoder channels ==========*/
@@ -29,7 +33,7 @@
 // Motors
 #define LTR_MOTOR_A         4
 #define LTR_MOTOR_B         2
-#define RTR_MOTOR_A         7
+#define RTR_MOTOR_A         5
 #define RTR_MOTOR_B         10
 #define ELEVATOR_MOTOR_PORT 1
 #define RIGHT_ARM_IN_PORT   3
@@ -48,12 +52,13 @@
 
 // Solenoids
 #define SHIFTER_PORT        0
-#define PTO_PORT            TBD
+#define PTO_ENABLE_PORT     2
+#define PTO_DISABLE_PORT	3
 #define FLIPPER_PORT        1
 #define WINGS_PORT          TBD
 
 /*========== Speed constants and Encoder thresholds ==========*/
-#define CL_SPEED            TBD
+#define CL_SPEED            -.25
 
 #define SHIFT_UP_SPEED      2900
 #define SHIFT_DOWN_SPEED    2200
@@ -62,9 +67,11 @@
 #define ELEVATOR_SCALE_PT   39460.0
 #define ELEVATOR_DOWN_PT    0.0
 #define ELEVATOR_SWITCH_PT  10644.0
+#define ELEVATOR_CLIMB_PT	34500.0
 #define INTAKE_WHEEL_SPEED  1
 #define INTAKE_IN_PT        -4750.0
 #define INTAKE_UP_PT        -1000
+#define INTAKE_DOWN_PT		-8400.0
 #define INTAKE_SHOOT_PT     TBD
 
 #define ARM_PIVOT_SPEED     TBD

@@ -21,6 +21,7 @@ private:
     long int i;
     
 	bool arm_mode;
+	bool prev_arm_mode;
     bool reaching_pos;
 	double last_enc;
 public:

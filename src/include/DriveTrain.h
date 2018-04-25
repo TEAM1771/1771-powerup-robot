@@ -18,10 +18,11 @@ private:
     Solenoid shifter;
     
     // Power takeoff
-    Solenoid pto;
+    Solenoid pto_en;
+	Solenoid pto_dis;
     bool isClimbing;
 public:
-    DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int re1, int re2, int shift_port, int pto_port);
+    DriveTrain(int lm1, int lm2, int rm1, int rm2, int le1, int le2, int re1, int re2, int shift_port, int pto_en_port, int pto_dis_port);
     
     void Tank(double ljoy, double rjoy);
     
@@ -38,6 +39,11 @@ public:
     // Encoder functions
     double GetAvgDistance();
     double GetAvgRaw();
+	void ResetEnc();
+	double GetLeftEnc();
+	double GetRightEnc();
+	
+	void SetNeutralMode(NeutralMode nm);
 };
 
 #endif /* DRIVETRAIN_H_ */
