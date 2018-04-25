@@ -18,37 +18,15 @@ elvtr_enc(elv_ch_a, elv_ch_b){
 }
 
 void Elevator::UpdatePID(){
-		static double max_change = -10;
-		static double min_change = 10;
-		SmartDashboard::PutNumber("max_change:", max_change);
-		SmartDashboard::PutNumber("min_change:", min_change);
-
 		
+		/** WORKING MANUAL 'BANG-BANG' ELEVATOR DROP **/
         error = desired_pos - GetElvtrEnc();
         change = ELEVATOR_P*error/ELEVATOR_SCALE_PT;
 		
 		/**   CHANGE @ .1 HOLDS ELEVATOR IN POSITION    **/
-		/* if(change < 0){
-			elvtr.SetNeutralMode(NeutralMode::Brake);
-			change = 0;
-		} */
-		
-		// TEST BELOW
-		 /* if(change < 0){
-			change = 0;
-		 }  */
-		
-		/*if(arm_mode != prev_arm_mode){
-			if(arm_mode == 0)
-				elvtr.SetNeutralMode(NeutralMode::Brake);
-			else if(arm_mode == 1)
-				elvtr.SetNeutralMode(NeutralMode::Coast);
-			prev_arm_mode = arm_mode;
-		} */
 		
 		if(change < 0){
 			change = 0;
-			SmartDashboard::PutString("enc-last diff:", std::to_string(fabs(GetElvtrEnc() - last_enc)));
 			if(GetElvtrEnc() < ELEVATOR_SWITCH_PT/3){
 				arm_mode = 0;
 			}else if(arm_mode && fabs(GetElvtrEnc() - last_enc) >= ELEVATOR_GAP_COAST){
@@ -67,11 +45,17 @@ void Elevator::UpdatePID(){
 		}else{
 			elvtr.SetNeutralMode(NeutralMode::Brake);
 		}
-		 
-		if(change > max_change) max_change = change;
-		if(change < min_change) min_change = change;
 		
 		elvtr.Set(ControlMode::PercentOutput, change);
+		
+		/*
+		error = (desired_pos - GetElvtrEnc());
+		if(error < 0)
+			error = desired_pos - GetElvtrEnc() + ELEVATOR_SCALE_PT;
+		change = error/ELEVATOR_SCALE_PT;
+		*/
+		
+		
 }
 
 void Elevator::SetPosition(int pos){
@@ -91,7 +75,6 @@ void Elevator::SetNeutralMode(NeutralMode nm){
 }
 
 void Elevator::SetForJoy(double rate){
-    SmartDashboard::PutString("Current Elevator Encoder Val:", std::to_string(elvtr_enc.Get()));
     if(elvtr_enc.Get() > ELEVATOR_SCALE_PT){
         if(rate < 0)
             elvtr.Set(ControlMode::PercentOutput, rate);
